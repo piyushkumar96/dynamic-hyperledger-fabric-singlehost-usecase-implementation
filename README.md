@@ -18,11 +18,22 @@
 
 7. Adding org to channel in which it is not present using **addOrgToChannel.sh** script.
 
-## Note:- I also wrote scripts which spawn dynamic hyperledger fabric natwork on multi host (kubernetes cluster). To get help regarding this please contact me on mail: piyush25032@gmail.com
+## Note:- I also wrote scripts which spawn dynamic hyperledger fabric network in multi host environment on local as well as AWS, AZURE etc. cloud `(with install and instantiate chaincode also)  **(productionized, kubernetes cluster, flaut tolerance, kafka, zookeeper, multi orderer)**`. To get help regarding this please contact me on mail: piyush25032@gmail.com
 
-## For scripts to spawn HFBC network  click on the [** dynamic hyperleger fabric scripts **](https://github.com/piyushkumar96/dynamic-hyperledger-fabric-singlehost) link.  
+## For scripts to spawn HFBC network  click on the [dynamic hyperleger fabric scripts](https://github.com/piyushkumar96/dynamic-hyperledger-fabric-singlehost) link.  
 
 
+## Technology STACK
+1. Hyperledger Fabric(v1.4)
+2. Golang and Nodejs (Chaincode)
+3. Docker & Container
+4. Shell Scripting
+5. Python
+
+## System and Software Requirments
+1. Ubuntu, Docker, Golang, Python.
+2. Download hypeledger fabric binaries like cryptogen, configtxgen etc. basic bin folder of fabric-samples outside the this repo (after clonning).
+3. Download Chaincode folder just outside this repo (after clonning).
 
 
                                 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
