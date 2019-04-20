@@ -1,0 +1,31 @@
+version: '2'
+
+volumes:
+  peer2.sbi.bankconsortiumbcnet.com:
+
+networks:
+  byfn:
+
+services:
+
+  peer2.sbi.bankconsortiumbcnet.com:
+    container_name: peer2.sbi.bankconsortiumbcnet.com
+    extends:
+      file: ../base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer2.sbi.bankconsortiumbcnet.com
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7101
+      - CORE_PEER_ADDRESS=peer2.sbi.bankconsortiumbcnet.com:7101
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.sbi.bankconsortiumbcnet.com:7101
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.sbi.bankconsortiumbcnet.com:7101
+      - CORE_PEER_LOCALMSPID=sbiMSP
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/sbi.bankconsortiumbcnet.com/peers/peer2.sbi.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/sbi.bankconsortiumbcnet.com/peers/peer2.sbi.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 7119:7101
+      - 7120:7102
+    networks:
+      - byfn 

@@ -1,0 +1,99 @@
+version: '2'
+
+volumes:
+  peer0.pnb.bankconsortiumbcnet.com:
+  peer1.pnb.bankconsortiumbcnet.com:
+networks:
+  byfn:
+services:
+  capnb:
+    image: hyperledger/fabric-ca:latest
+    environment:
+    - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+    - FABRIC_CA_SERVER_CA_NAME=ca-pnb
+    - FABRIC_CA_SERVER_TLS_ENABLED=true
+    - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.pnb.bankconsortiumbcnet.com-cert.pem
+    - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/11ee6afb4932639d0685123bdc867c4d285d9c3ba84a90acbfe9e6e3ed3b8216_sk     
+    ports:
+    - 8004:8001
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.pnb.bankconsortiumbcnet.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/11ee6afb4932639d0685123bdc867c4d285d9c3ba84a90acbfe9e6e3ed3b8216_sk -b admin:adminpw -d'
+    volumes:
+    - ./crypto-config/peerOrganizations/pnb.bankconsortiumbcnet.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerpnb
+    networks:
+    - byfn
+  peer0.pnb.bankconsortiumbcnet.com:
+    container_name: peer0.pnb.bankconsortiumbcnet.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+     - CORE_PEER_ID=peer0.pnb.bankconsortiumbcnet.com
+     - CORE_PEER_LISTENADDRESS=0.0.0.0:7121
+     - CORE_PEER_ADDRESS=peer0.pnb.bankconsortiumbcnet.com:7121
+     - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.pnb.bankconsortiumbcnet.com:7121
+     - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.pnb.bankconsortiumbcnet.com:7121
+     - CORE_PEER_LOCALMSPID=pnbMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/pnb.bankconsortiumbcnet.com/peers/peer0.pnb.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/pnb.bankconsortiumbcnet.com/peers/peer0.pnb.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.pnb.bankconsortiumbcnet.com:/var/hyperledger/production
+    ports:
+    - 7121:7121
+    - 7122:7122
+    networks:
+    - byfn
+  peer1.pnb.bankconsortiumbcnet.com:
+    container_name: peer1.pnb.bankconsortiumbcnet.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+     - CORE_PEER_ID=peer1.pnb.bankconsortiumbcnet.com
+     - CORE_PEER_LISTENADDRESS=0.0.0.0:7121           
+     - CORE_PEER_ADDRESS=peer1.pnb.bankconsortiumbcnet.com:7121
+     - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.pnb.bankconsortiumbcnet.com:7121
+     - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.pnb.bankconsortiumbcnet.com:7121
+     - CORE_PEER_LOCALMSPID=pnbMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./crypto-config/peerOrganizations/pnb.bankconsortiumbcnet.com/peers/peer1.pnb.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+        - ./crypto-config/peerOrganizations/pnb.bankconsortiumbcnet.com/peers/peer1.pnb.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.pnb.bankconsortiumbcnet.com:/var/hyperledger/production
+    ports:
+    - 7123:7121
+    - 7124:7122
+    networks:
+    - byfn
+  pnbcli:
+    container_name: pnbcli
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- CORE_LOGGING_LEVEL=DEBUG
+      - CORE_LOGGING_LEVEL=INFO
+      - CORE_PEER_ID=pnbcli
+      - CORE_PEER_ADDRESS=peer0.pnb.bankconsortiumbcnet.com:7121
+      - CORE_PEER_LOCALMSPID=pnbMSP
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/pnb.bankconsortiumbcnet.com/peers/peer0.pnb.bankconsortiumbcnet.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/pnb.bankconsortiumbcnet.com/peers/peer0.pnb.bankconsortiumbcnet.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/pnb.bankconsortiumbcnet.com/peers/peer0.pnb.bankconsortiumbcnet.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/pnb.bankconsortiumbcnet.com/users/Admin@pnb.bankconsortiumbcnet.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./../chaincode/:/opt/gopath/src/github.com/chaincode
+        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - peer0.pnb.bankconsortiumbcnet.com
+      - peer1.pnb.bankconsortiumbcnet.com
+    networks:
+      - byfn

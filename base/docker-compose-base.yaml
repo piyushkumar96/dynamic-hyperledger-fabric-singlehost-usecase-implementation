@@ -1,0 +1,208 @@
+version: '2'
+
+services:
+
+  orderer.bankconsortiumbcnet.com:
+    container_name: orderer.bankconsortiumbcnet.com
+    image: hyperledger/fabric-orderer:latest
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ../crypto-config/ordererOrganizations/bankconsortiumbcnet.com/orderers/orderer.bankconsortiumbcnet.com/msp:/var/hyperledger/orderer/msp
+    - ../crypto-config/ordererOrganizations/bankconsortiumbcnet.com/orderers/orderer.bankconsortiumbcnet.com/tls/:/var/hyperledger/orderer/tls
+    - orderer.bankconsortiumbcnet.com:/var/hyperledger/production/orderer
+    ports:
+      - 7050:7050
+  peer0.sbi.bankconsortiumbcnet.com:
+      container_name: peer0.sbi.bankconsortiumbcnet.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+      environment:
+        - CORE_PEER_ID=peer0.sbi.bankconsortiumbcnet.com
+        - CORE_PEER_LISTENADDRESS=0.0.0.0:7101           
+        - CORE_PEER_ADDRESS=peer0.sbi.bankconsortiumbcnet.com:7101
+        - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.sbi.bankconsortiumbcnet.com:7101
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.sbi.bankconsortiumbcnet.com:7101
+        - CORE_PEER_LOCALMSPID=sbiMSP
+      volumes:
+          - /var/run/:/host/var/run/
+          - ../crypto-config/peerOrganizations/sbi.bankconsortiumbcnet.com/peers/peer0.sbi.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+          - ../crypto-config/peerOrganizations/sbi.bankconsortiumbcnet.com/peers/peer0.sbi.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+          - peer0.sbi.bankconsortiumbcnet.com:/var/hyperledger/production
+      ports:
+        - 7101:7101
+        - 7102:7102
+  peer1.sbi.bankconsortiumbcnet.com:
+      container_name: peer1.sbi.bankconsortiumbcnet.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+      environment:
+        - CORE_PEER_ID=peer1.sbi.bankconsortiumbcnet.com
+        - CORE_PEER_LISTENADDRESS=0.0.0.0:7101           
+        - CORE_PEER_ADDRESS=peer1.sbi.bankconsortiumbcnet.com:7101
+        - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.sbi.bankconsortiumbcnet.com:7101
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.sbi.bankconsortiumbcnet.com:7101
+        - CORE_PEER_LOCALMSPID=sbiMSP
+      volumes:
+          - /var/run/:/host/var/run/
+          - ../crypto-config/peerOrganizations/sbi.bankconsortiumbcnet.com/peers/peer1.sbi.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+          - ../crypto-config/peerOrganizations/sbi.bankconsortiumbcnet.com/peers/peer1.sbi.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+          - peer1.sbi.bankconsortiumbcnet.com:/var/hyperledger/production
+      ports:
+        - 7103:7101
+        - 7104:7102
+  peer0.hdfc.bankconsortiumbcnet.com:
+      container_name: peer0.hdfc.bankconsortiumbcnet.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+      environment:
+        - CORE_PEER_ID=peer0.hdfc.bankconsortiumbcnet.com
+        - CORE_PEER_LISTENADDRESS=0.0.0.0:7105           
+        - CORE_PEER_ADDRESS=peer0.hdfc.bankconsortiumbcnet.com:7105
+        - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.hdfc.bankconsortiumbcnet.com:7105
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.hdfc.bankconsortiumbcnet.com:7105
+        - CORE_PEER_LOCALMSPID=hdfcMSP
+      volumes:
+          - /var/run/:/host/var/run/
+          - ../crypto-config/peerOrganizations/hdfc.bankconsortiumbcnet.com/peers/peer0.hdfc.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+          - ../crypto-config/peerOrganizations/hdfc.bankconsortiumbcnet.com/peers/peer0.hdfc.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+          - peer0.hdfc.bankconsortiumbcnet.com:/var/hyperledger/production
+      ports:
+        - 7105:7105
+        - 7106:7106
+  peer1.hdfc.bankconsortiumbcnet.com:
+      container_name: peer1.hdfc.bankconsortiumbcnet.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+      environment:
+        - CORE_PEER_ID=peer1.hdfc.bankconsortiumbcnet.com
+        - CORE_PEER_LISTENADDRESS=0.0.0.0:7105           
+        - CORE_PEER_ADDRESS=peer1.hdfc.bankconsortiumbcnet.com:7105
+        - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.hdfc.bankconsortiumbcnet.com:7105
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.hdfc.bankconsortiumbcnet.com:7105
+        - CORE_PEER_LOCALMSPID=hdfcMSP
+      volumes:
+          - /var/run/:/host/var/run/
+          - ../crypto-config/peerOrganizations/hdfc.bankconsortiumbcnet.com/peers/peer1.hdfc.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+          - ../crypto-config/peerOrganizations/hdfc.bankconsortiumbcnet.com/peers/peer1.hdfc.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+          - peer1.hdfc.bankconsortiumbcnet.com:/var/hyperledger/production
+      ports:
+        - 7107:7105
+        - 7108:7106
+  peer2.hdfc.bankconsortiumbcnet.com:
+      container_name: peer2.hdfc.bankconsortiumbcnet.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+      environment:
+        - CORE_PEER_ID=peer2.hdfc.bankconsortiumbcnet.com
+        - CORE_PEER_LISTENADDRESS=0.0.0.0:7105           
+        - CORE_PEER_ADDRESS=peer2.hdfc.bankconsortiumbcnet.com:7105
+        - CORE_PEER_GOSSIP_BOOTSTRAP=peer2.hdfc.bankconsortiumbcnet.com:7105
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.hdfc.bankconsortiumbcnet.com:7105
+        - CORE_PEER_LOCALMSPID=hdfcMSP
+      volumes:
+          - /var/run/:/host/var/run/
+          - ../crypto-config/peerOrganizations/hdfc.bankconsortiumbcnet.com/peers/peer2.hdfc.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+          - ../crypto-config/peerOrganizations/hdfc.bankconsortiumbcnet.com/peers/peer2.hdfc.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+          - peer2.hdfc.bankconsortiumbcnet.com:/var/hyperledger/production
+      ports:
+        - 7109:7105
+        - 7110:7106
+  peer0.icici.bankconsortiumbcnet.com:
+      container_name: peer0.icici.bankconsortiumbcnet.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+      environment:
+        - CORE_PEER_ID=peer0.icici.bankconsortiumbcnet.com
+        - CORE_PEER_LISTENADDRESS=0.0.0.0:7111           
+        - CORE_PEER_ADDRESS=peer0.icici.bankconsortiumbcnet.com:7111
+        - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.icici.bankconsortiumbcnet.com:7111
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.icici.bankconsortiumbcnet.com:7111
+        - CORE_PEER_LOCALMSPID=iciciMSP
+      volumes:
+          - /var/run/:/host/var/run/
+          - ../crypto-config/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer0.icici.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+          - ../crypto-config/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer0.icici.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+          - peer0.icici.bankconsortiumbcnet.com:/var/hyperledger/production
+      ports:
+        - 7111:7111
+        - 7112:7112
+  peer1.icici.bankconsortiumbcnet.com:
+      container_name: peer1.icici.bankconsortiumbcnet.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+      environment:
+        - CORE_PEER_ID=peer1.icici.bankconsortiumbcnet.com
+        - CORE_PEER_LISTENADDRESS=0.0.0.0:7111           
+        - CORE_PEER_ADDRESS=peer1.icici.bankconsortiumbcnet.com:7111
+        - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.icici.bankconsortiumbcnet.com:7111
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.icici.bankconsortiumbcnet.com:7111
+        - CORE_PEER_LOCALMSPID=iciciMSP
+      volumes:
+          - /var/run/:/host/var/run/
+          - ../crypto-config/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer1.icici.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+          - ../crypto-config/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer1.icici.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+          - peer1.icici.bankconsortiumbcnet.com:/var/hyperledger/production
+      ports:
+        - 7113:7111
+        - 7114:7112
+  peer2.icici.bankconsortiumbcnet.com:
+      container_name: peer2.icici.bankconsortiumbcnet.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+      environment:
+        - CORE_PEER_ID=peer2.icici.bankconsortiumbcnet.com
+        - CORE_PEER_LISTENADDRESS=0.0.0.0:7111           
+        - CORE_PEER_ADDRESS=peer2.icici.bankconsortiumbcnet.com:7111
+        - CORE_PEER_GOSSIP_BOOTSTRAP=peer2.icici.bankconsortiumbcnet.com:7111
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.icici.bankconsortiumbcnet.com:7111
+        - CORE_PEER_LOCALMSPID=iciciMSP
+      volumes:
+          - /var/run/:/host/var/run/
+          - ../crypto-config/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer2.icici.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+          - ../crypto-config/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer2.icici.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+          - peer2.icici.bankconsortiumbcnet.com:/var/hyperledger/production
+      ports:
+        - 7115:7111
+        - 7116:7112
+  peer3.icici.bankconsortiumbcnet.com:
+      container_name: peer3.icici.bankconsortiumbcnet.com
+      extends:
+        file: peer-base.yaml
+        service: peer-base
+      environment:
+        - CORE_PEER_ID=peer3.icici.bankconsortiumbcnet.com
+        - CORE_PEER_LISTENADDRESS=0.0.0.0:7111           
+        - CORE_PEER_ADDRESS=peer3.icici.bankconsortiumbcnet.com:7111
+        - CORE_PEER_GOSSIP_BOOTSTRAP=peer3.icici.bankconsortiumbcnet.com:7111
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer3.icici.bankconsortiumbcnet.com:7111
+        - CORE_PEER_LOCALMSPID=iciciMSP
+      volumes:
+          - /var/run/:/host/var/run/
+          - ../crypto-config/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer3.icici.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+          - ../crypto-config/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer3.icici.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+          - peer3.icici.bankconsortiumbcnet.com:/var/hyperledger/production
+      ports:
+        - 7117:7111
+        - 7118:7112

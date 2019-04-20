@@ -1,0 +1,174 @@
+version: '2'
+
+volumes:
+  orderer.bankconsortiumbcnet.com:
+  peer0.sbi.bankconsortiumbcnet.com:
+  peer1.sbi.bankconsortiumbcnet.com:
+  peer0.hdfc.bankconsortiumbcnet.com:
+  peer1.hdfc.bankconsortiumbcnet.com:
+  peer2.hdfc.bankconsortiumbcnet.com:
+  peer0.icici.bankconsortiumbcnet.com:
+  peer1.icici.bankconsortiumbcnet.com:
+  peer2.icici.bankconsortiumbcnet.com:
+  peer3.icici.bankconsortiumbcnet.com:
+
+networks:
+  byfn:
+services:
+  casbi:
+          image: hyperledger/fabric-ca:latest
+          environment:
+            - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+            - FABRIC_CA_SERVER_CA_NAME=ca-sbi
+            - FABRIC_CA_SERVER_TLS_ENABLED=true
+            - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.sbi.bankconsortiumbcnet.com-cert.pem
+            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/a99b579f945737f90599df323e3c9e94189876517bf420be2460866ce346c7b7_sk      
+          ports:
+            - 8001:8001
+          command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.sbi.bankconsortiumbcnet.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/a99b579f945737f90599df323e3c9e94189876517bf420be2460866ce346c7b7_sk -b admin:adminpw -d'
+          volumes:
+            - ./crypto-config/peerOrganizations/sbi.bankconsortiumbcnet.com/ca/:/etc/hyperledger/fabric-ca-server-config
+          container_name: ca_peersbi
+          networks:
+            - byfn
+  cahdfc:
+          image: hyperledger/fabric-ca:latest
+          environment:
+            - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+            - FABRIC_CA_SERVER_CA_NAME=ca-hdfc
+            - FABRIC_CA_SERVER_TLS_ENABLED=true
+            - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.hdfc.bankconsortiumbcnet.com-cert.pem
+            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/4b4d1bc62136efc3c5305380769e316a56a2147175db3f006c6544ec083bbaeb_sk      
+          ports:
+            - 8002:8001
+          command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.hdfc.bankconsortiumbcnet.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/4b4d1bc62136efc3c5305380769e316a56a2147175db3f006c6544ec083bbaeb_sk -b admin:adminpw -d'
+          volumes:
+            - ./crypto-config/peerOrganizations/hdfc.bankconsortiumbcnet.com/ca/:/etc/hyperledger/fabric-ca-server-config
+          container_name: ca_peerhdfc
+          networks:
+            - byfn
+  caicici:
+          image: hyperledger/fabric-ca:latest
+          environment:
+            - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+            - FABRIC_CA_SERVER_CA_NAME=ca-icici
+            - FABRIC_CA_SERVER_TLS_ENABLED=true
+            - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.icici.bankconsortiumbcnet.com-cert.pem
+            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/dc88b1f686c10fdc7bb1e2df98788bfcd763ef70a750d83c1ad8cd146d8466fc_sk      
+          ports:
+            - 8003:8002
+          command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.icici.bankconsortiumbcnet.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/dc88b1f686c10fdc7bb1e2df98788bfcd763ef70a750d83c1ad8cd146d8466fc_sk -b admin:adminpw -d'
+          volumes:
+            - ./crypto-config/peerOrganizations/icici.bankconsortiumbcnet.com/ca/:/etc/hyperledger/fabric-ca-server-config
+          container_name: ca_peericici
+          networks:
+            - byfn
+  peer0.sbi.bankconsortiumbcnet.com:
+    container_name: peer0.sbi.bankconsortiumbcnet.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.sbi.bankconsortiumbcnet.com
+    networks:
+      - byfn
+  peer1.sbi.bankconsortiumbcnet.com:
+    container_name: peer1.sbi.bankconsortiumbcnet.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer1.sbi.bankconsortiumbcnet.com
+    networks:
+      - byfn
+  peer0.hdfc.bankconsortiumbcnet.com:
+    container_name: peer0.hdfc.bankconsortiumbcnet.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.hdfc.bankconsortiumbcnet.com
+    networks:
+      - byfn
+  peer1.hdfc.bankconsortiumbcnet.com:
+    container_name: peer1.hdfc.bankconsortiumbcnet.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer1.hdfc.bankconsortiumbcnet.com
+    networks:
+      - byfn
+  peer2.hdfc.bankconsortiumbcnet.com:
+    container_name: peer2.hdfc.bankconsortiumbcnet.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer2.hdfc.bankconsortiumbcnet.com
+    networks:
+      - byfn
+  peer0.icici.bankconsortiumbcnet.com:
+    container_name: peer0.icici.bankconsortiumbcnet.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.icici.bankconsortiumbcnet.com
+    networks:
+      - byfn
+  peer1.icici.bankconsortiumbcnet.com:
+    container_name: peer1.icici.bankconsortiumbcnet.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer1.icici.bankconsortiumbcnet.com
+    networks:
+      - byfn
+  peer2.icici.bankconsortiumbcnet.com:
+    container_name: peer2.icici.bankconsortiumbcnet.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer2.icici.bankconsortiumbcnet.com
+    networks:
+      - byfn
+  peer3.icici.bankconsortiumbcnet.com:
+    container_name: peer3.icici.bankconsortiumbcnet.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer3.icici.bankconsortiumbcnet.com
+    networks:
+      - byfn
+  orderer.bankconsortiumbcnet.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer.bankconsortiumbcnet.com
+    container_name: orderer.bankconsortiumbcnet.com
+    networks:
+      - byfn
+  bankconsortiumbcnetcli:
+    container_name: bankconsortiumbcnetcli
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- CORE_LOGGING_LEVEL=DEBUG
+      - CORE_LOGGING_LEVEL=INFO
+      - CORE_PEER_ID=bankconsortiumbcnetcli
+      - CORE_PEER_ADDRESS=peer0.icici.bankconsortiumbcnet.com:7111
+      - CORE_PEER_LOCALMSPID=bankconsortiumbcnetMSP
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer0.icici.bankconsortiumbcnet.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer0.icici.bankconsortiumbcnet.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer0.icici.bankconsortiumbcnet.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/icici.bankconsortiumbcnet.com/users/Admin@icici.bankconsortiumbcnet.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash  
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./../chaincode/:/opt/gopath/src/github.com/chaincode
+        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - orderer.bankconsortiumbcnet.com
+      - peer0.sbi.bankconsortiumbcnet.com
+      - peer1.sbi.bankconsortiumbcnet.com
+      - peer0.hdfc.bankconsortiumbcnet.com
+      - peer1.hdfc.bankconsortiumbcnet.com
+      - peer2.hdfc.bankconsortiumbcnet.com
+      - peer0.icici.bankconsortiumbcnet.com
+      - peer1.icici.bankconsortiumbcnet.com
+      - peer2.icici.bankconsortiumbcnet.com
+      - peer3.icici.bankconsortiumbcnet.com
+    networks:
+      - byfn
