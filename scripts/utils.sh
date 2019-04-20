@@ -41,6 +41,10 @@ elif [ $ORG == "hdfc" ] ; then
             set -x
             CORE_PEER_ADDRESS=peer2.hdfc.bankconsortiumbcnet.com:7105
             set +x
+          elif [ $PEER -eq 3 ]; then 
+           set -x 
+           CORE_PEER_ADDRESS=peer3.hdfc.bankconsortiumbcnet.com:7105 
+           set +x 
 #newpeerhdfc
           fi
 elif [ $ORG == "icici" ] ; then
@@ -65,6 +69,10 @@ elif [ $ORG == "icici" ] ; then
             set -x
             CORE_PEER_ADDRESS=peer3.icici.bankconsortiumbcnet.com:7111
             set +x
+          elif [ $PEER -eq 4 ]; then 
+           set -x 
+           CORE_PEER_ADDRESS=peer4.icici.bankconsortiumbcnet.com:7111 
+           set +x 
 #newpeericici
           fi
 elif [ $ORG == "pnb" ] ; then
@@ -81,6 +89,10 @@ elif [ $ORG == "pnb" ] ; then
             set -x
             CORE_PEER_ADDRESS=peer1.pnb.bankconsortiumbcnet.com:7121
             set +x
+          elif [ $PEER -eq 2 ]; then 
+           set -x 
+           CORE_PEER_ADDRESS=peer2.pnb.bankconsortiumbcnet.com:7121 
+           set +x 
 #newpeerpnb
           fi
 #neworg

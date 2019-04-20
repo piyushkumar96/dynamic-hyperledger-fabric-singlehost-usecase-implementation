@@ -12,18 +12,16 @@ PeerOrgs:
 - Domain: hdfc.bankconsortiumbcnet.com
   EnableNodeOUs: true
   Name: hdfc
-  Template: {Count: 3}
+  Template: {Count: 4}
   Users: {Count: 1}
 - Domain: icici.bankconsortiumbcnet.com
   EnableNodeOUs: true
   Name: icici
-  Template: {Count: 4}
+  Template: {Count: 5}
   Users: {Count: 1}
-- Name: pnb
-  Domain: pnb.bankconsortiumbcnet.com
+- Domain: pnb.bankconsortiumbcnet.com
   EnableNodeOUs: true
-  Template:
-    Count: 2
-  Users:
-    Count: 10
+  Name: pnb
+  Template: {Count: 3}
+  Users: {Count: 10}
 #neworgcryptoconfig

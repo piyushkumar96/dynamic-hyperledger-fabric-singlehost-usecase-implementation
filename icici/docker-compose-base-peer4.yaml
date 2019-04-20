@@ -1,0 +1,31 @@
+version: '2'
+
+volumes:
+  peer4.icici.bankconsortiumbcnet.com:
+
+networks:
+  byfn:
+
+services:
+
+  peer4.icici.bankconsortiumbcnet.com:
+    container_name: peer4.icici.bankconsortiumbcnet.com
+    extends:
+      file: ../base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer4.icici.bankconsortiumbcnet.com
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7111
+      - CORE_PEER_ADDRESS=peer4.icici.bankconsortiumbcnet.com:7111
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer4.icici.bankconsortiumbcnet.com:7111
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.icici.bankconsortiumbcnet.com:7111
+      - CORE_PEER_LOCALMSPID=iciciMSP
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer4.icici.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/icici.bankconsortiumbcnet.com/peers/peer4.icici.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 7131:7111
+      - 7132:7112
+    networks:
+      - byfn 

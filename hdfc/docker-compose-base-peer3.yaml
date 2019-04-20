@@ -1,0 +1,31 @@
+version: '2'
+
+volumes:
+  peer3.hdfc.bankconsortiumbcnet.com:
+
+networks:
+  byfn:
+
+services:
+
+  peer3.hdfc.bankconsortiumbcnet.com:
+    container_name: peer3.hdfc.bankconsortiumbcnet.com
+    extends:
+      file: ../base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer3.hdfc.bankconsortiumbcnet.com
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7105
+      - CORE_PEER_ADDRESS=peer3.hdfc.bankconsortiumbcnet.com:7105
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer3.hdfc.bankconsortiumbcnet.com:7105
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.hdfc.bankconsortiumbcnet.com:7105
+      - CORE_PEER_LOCALMSPID=hdfcMSP
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/hdfc.bankconsortiumbcnet.com/peers/peer3.hdfc.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/hdfc.bankconsortiumbcnet.com/peers/peer3.hdfc.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 7127:7105
+      - 7128:7106
+    networks:
+      - byfn 

@@ -1,0 +1,31 @@
+version: '2'
+
+volumes:
+  peer2.pnb.bankconsortiumbcnet.com:
+
+networks:
+  byfn:
+
+services:
+
+  peer2.pnb.bankconsortiumbcnet.com:
+    container_name: peer2.pnb.bankconsortiumbcnet.com
+    extends:
+      file: ../base/peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer2.pnb.bankconsortiumbcnet.com
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7121
+      - CORE_PEER_ADDRESS=peer2.pnb.bankconsortiumbcnet.com:7121
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.pnb.bankconsortiumbcnet.com:7121
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.pnb.bankconsortiumbcnet.com:7121
+      - CORE_PEER_LOCALMSPID=pnbMSP
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../crypto-config/peerOrganizations/pnb.bankconsortiumbcnet.com/peers/peer2.pnb.bankconsortiumbcnet.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/pnb.bankconsortiumbcnet.com/peers/peer2.pnb.bankconsortiumbcnet.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+      - 7125:7121
+      - 7126:7122
+    networks:
+      - byfn 
