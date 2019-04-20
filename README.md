@@ -480,6 +480,8 @@ efc3cfa2a3fc        hyperledger/fabric-peer:latest      "peer node start"       
 
 **piyushkumar@ubuntu:~/Documents/dynamic-hyperledger-fabric-singlehost-files$ ./addnewpeer.sh sbi**
 
+Creating volume "bankconsortiumbcnet_peer2.sbi.bankconsortiumbcnet.com" with default driver
+
 Creating peer2.sbi.bankconsortiumbcnet.com
 
 ############################################################################
@@ -1109,5 +1111,54 @@ Fetching channel config block from orderer...
 #######################################################################
 
 -----------------------------------------------------------------------------------------------------------------------------
-                                      END
+                                                Command to add new peer to an org in exsisting blockchain network
+-----------------------------------------------------------------------------------------------------------------------------
+
+**piyushkumar@ubuntu:~/Documents/dynamic-hyperledger-fabric-singlehost-files$ ./addnewpeer.sh pnb**
+
+Creating volume "bankconsortiumbcnet_peer2.pnb.bankconsortiumbcnet.com" with default driver
+
+Creating peer2.pnb.bankconsortiumbcnet.com
+
+#########################################################################
+
+#############    New Peer2 is added to pnb        #######################
+
+#########################################################################
+
+-----------------------------------------------------------------------------------------------------------------------------
+                                                Command to add new peer to an org in exsisting blockchain network
+-----------------------------------------------------------------------------------------------------------------------------
+
+**piyushkumar@ubuntu:~/Documents/dynamic-hyperledger-fabric-singlehost-files$ ./addnewpeer.sh hdfc**
+
+Creating volume "bankconsortiumbcnet_peer3.hdfc.bankconsortiumbcnet.com" with default driver
+
+Creating peer3.hdfc.bankconsortiumbcnet.com
+
+########################################################################
+
+############    New Peer3 is added to hdfc        ######################
+
+########################################################################
+
+-----------------------------------------------------------------------------------------------------------------------------
+                                                Command to add new peer to an org in exsisting blockchain network
+-----------------------------------------------------------------------------------------------------------------------------
+
+
+**piyushkumar@ubuntu:~/Documents/dynamic-hyperledger-fabric-singlehost-files$ ./addnewpeer.sh icici**
+
+Creating volume "bankconsortiumbcnet_peer4.icici.bankconsortiumbcnet.com" with default driver
+
+Creating peer4.icici.bankconsortiumbcnet.com
+
+#######################################################################
+
+#############    New Peer4 is added to icici     ######################
+
+#######################################################################
+
+-----------------------------------------------------------------------------------------------------------------------------
+                                                              END
 -----------------------------------------------------------------------------------------------------------------------------
