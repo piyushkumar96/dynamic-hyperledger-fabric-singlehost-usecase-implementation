@@ -18,9 +18,7 @@
 
 7. Adding org to channel in which it is not present using **addOrgToChannel.sh** script.
 
-## Note:- I also wrote scripts which spawn dynamic hyperledger fabric network in multi host environment on local as well as cloud (AWS, AZURE etc). `(with install and instantiate chaincode also)  **(productionized, kubernetes cluster, flaut tolerance, kafka, zookeeper, multi orderer)**`. To get help regarding this please contact me on mail: piyush25032@gmail.com
-
-## For scripts to spawn HFBC network  click on the [dynamic hyperleger fabric scripts](https://github.com/piyushkumar96/dynamic-hyperledger-fabric-singlehost) link.  
+## Note:- I also wrote scripts which spawn dynamic hyperledger fabric network in multi host environment on local as well as cloud (AWS, AZURE etc). `(with install and instantiate chaincode also)  **(productionized, kubernetes cluster, flaut tolerance, kafka, zookeeper, multi orderer)**`.  
 
 
 ## Technology STACK
